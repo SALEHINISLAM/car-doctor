@@ -8,7 +8,9 @@ import router from './Routes/PublicRoutes.jsx';
 
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
+  <div className="bg-white">
+    <StrictMode>
     <RouterProvider router={router}/>
-  </StrictMode>,
+  </StrictMode>
+  </div>
 )

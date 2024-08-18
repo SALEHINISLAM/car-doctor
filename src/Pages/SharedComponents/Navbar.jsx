@@ -1,11 +1,38 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 const Navbar = (props) => {
+    const navItem=<>
+    <li >
+        <NavLink to={'/'}>
+            Home
+        </NavLink>
+    </li>
+    <li>
+        <NavLink to={'/about'}>
+            About
+        </NavLink>
+    </li>
+    <li>
+        <NavLink>
+            Services
+        </NavLink>
+    </li>
+    <li>
+        <NavLink>
+            Blog
+        </NavLink>
+    </li>
+    <li>
+        <NavLink>
+            Contact
+        </NavLink>
+    </li>
+    </>
   return (
     <div>
-      <div className="navbar bg-black rounded-lg container mx-auto">
+      <div className="navbar bg-white rounded-lg container mx-auto min-h-28 ">
         <div className="navbar-start">
           <div className="dropdown">
             <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -26,58 +53,26 @@ const Navbar = (props) => {
             </div>
             <ul
               tabIndex={0}
-              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
+              className="menu menu-sm dropdown-content bg-white rounded-box z-[1] mt-3 w-52 p-2 shadow"
             >
-              <li>
-                <a>Item 1</a>
-              </li>
-              <li>
-                <a>Parent</a>
-                <ul className="p-2">
-                  <li>
-                    <a>Submenu 1</a>
-                  </li>
-                  <li>
-                    <a>Submenu 2</a>
-                  </li>
-                </ul>
-              </li>
-              <li>
-                <a>Item 3</a>
-              </li>
+              {
+                navItem
+              }
             </ul>
           </div>
-          <a className="btn btn-ghost text-xl">
-            <Link>
-            <img src="https://www.dropbox.com/scl/fi/4twigjtlxkj9t4ubbqcig/logo.svg" alt="" />
+            <Link to={'/'} className="btn btn-ghost text-xl h-full">
+            <img src="https://raw.githubusercontent.com/SALEHINISLAM/car-doctor/main/public/assets/logo.svg" alt="" />
             </Link>
-          </a>
         </div>
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">
-            <li>
-              <a>Item 1</a>
-            </li>
-            <li>
-              <details>
-                <summary>Parent</summary>
-                <ul className="p-2">
-                  <li>
-                    <a>Submenu 1</a>
-                  </li>
-                  <li>
-                    <a>Submenu 2</a>
-                  </li>
-                </ul>
-              </details>
-            </li>
-            <li>
-              <a>Item 3</a>
-            </li>
+            {
+                navItem
+            }
           </ul>
         </div>
         <div className="navbar-end">
-          <a className="btn">Button</a>
+          <a className="btn btn-outline btn-error">Appointment</a>
         </div>
       </div>
     </div>
