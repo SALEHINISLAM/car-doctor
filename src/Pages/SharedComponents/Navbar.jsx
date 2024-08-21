@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import { Link, NavLink } from "react-router-dom";
+import { AuthContext } from "../../Providers/AuthProviders";
 
 const Navbar = (props) => {
+  const {user}=useContext(AuthContext)
     const navItem=<>
     <li >
         <NavLink to={'/'}>
@@ -72,7 +74,7 @@ const Navbar = (props) => {
           </ul>
         </div>
         <div className="navbar-end">
-          <a className="btn btn-outline btn-error">Appointment</a>
+          <a className="btn btn-outline btn-error" href={user? '/orders':'/login'}>Go to Dashboard</a>
         </div>
       </div>
     </div>

@@ -18,6 +18,11 @@ const SignUp = (props) => {
           const response=await createUser(email, password, name)
           console.log(response.json())
           Swal.fire('Registration successful...')
+          .then(res=>{
+            if (res.isConfirmed) {
+              window.location.href('/orders')
+            }
+          })
         }catch (err){
           throw err;
         }

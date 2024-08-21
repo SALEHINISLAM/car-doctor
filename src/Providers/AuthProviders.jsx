@@ -4,6 +4,7 @@ import { getDatabase, ref, set } from 'firebase/database';
 import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from "firebase/auth";
 import app from '../Firebase/firebase.config';
 import { GoogleAuthProvider } from 'firebase/auth';
+import axios from 'axios';
 
 export const AuthContext=createContext();
 const database=getDatabase(app)
@@ -64,6 +65,7 @@ const AuthProviders = ({children}) => {
         }
     }
     const userLogOut=async()=>{
+        setLoading(true)
         try{
             await signOut(auth);
             setUser(null);
@@ -75,7 +77,22 @@ const AuthProviders = ({children}) => {
     useEffect(()=>{
         const unsubscribe= onAuthStateChanged(auth,(currentUser)=>{
             setUser(currentUser);
+            const userEmail=currentUser?.email || user?.email
+            const loggedUser={email : userEmail};
             console.log('current user',currentUser);
+            //if user exist
+            if (currentUser) {
+                axios.post('http://localhost:3000/jwt',loggedUser, {  withCredentials:true})
+                .then(res=>{
+                    console.log('token response',res.data);
+                })
+            }
+            else{
+                axios.post('http://localhost:3000/logout', loggedUser, {withCredentials:true})
+                .then(res=>{
+                    console.log(res.data)
+                })
+            }
             setLoading(false)
         });
         return ()=>{

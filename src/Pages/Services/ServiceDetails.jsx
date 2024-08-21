@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { useLoaderData, useParams } from "react-router-dom";
+import { Link, useLoaderData, useParams } from "react-router-dom";
 import Facility from "./Facility";
 import { LuPlayCircle } from "react-icons/lu";
 import { IoDocumentTextSharp } from "react-icons/io5";
@@ -153,9 +153,11 @@ const ServiceDetails = () => {
                 Price: ${price}
             </h2>
           </div>
+          <Link to={`/checkout/${id}`}>
           <button className="bg-[#FF3811] btn w-full border-none text-white text-lg font-semibold">
           Proceed Checkout
           </button>
+          </Link>
         </div>
       </div>
     </div>

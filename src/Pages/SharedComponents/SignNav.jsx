@@ -5,35 +5,47 @@ import { AuthContext } from "../../Providers/AuthProviders";
 import Swal from "sweetalert2";
 
 const SignNav = (props) => {
-  const {user, userLogOut}=useContext(AuthContext)
-    const logOut=async()=>{
-      await userLogOut();
-      Swal.fire('Logout Successful...')
-    }
-    const links=<>
-    <li>
-        <NavLink>
-            Order
+  const { user, userLogOut } = useContext(AuthContext);
+  const logOut = async () => {
+    await userLogOut();
+    Swal.fire("Logout Successful...")
+    .then(result=>{
+      if (result.isConfirmed) {
+        
+      }
+    })
+  };
+  const links = (
+    <>
+      <li>
+        <NavLink
+          to={"/orders"}
+          className={({ isActive }) => {
+            isActive ? "active underline border" : "";
+          }}
+        >
+          Order
         </NavLink>
-    </li>
-    <li>
-        <NavLink>
-            Order Review
-        </NavLink>
-    </li>
-    <li>
-        <NavLink className='text-white'>
-            Manage Inventory
-        </NavLink>
-    </li>
-    <li>
-        {
-          user? <button className="text-base-content" onClick={()=>logOut()}>LogOut</button>:<NavLink to={'/login'} className='text-base-content'>
-          Login
-      </NavLink>
-        }
-    </li>
+      </li>
+      <li>
+        <NavLink>Order Review</NavLink>
+      </li>
+      <li>
+        <NavLink className="text-white">Manage Inventory</NavLink>
+      </li>
+      <li>
+        {user ? (
+          <button className="text-base-content" onClick={() => logOut()}>
+            LogOut
+          </button>
+        ) : (
+          <NavLink to={"/login"} className="text-base-content">
+            Login
+          </NavLink>
+        )}
+      </li>
     </>
+  );
   return (
     <div>
       <div className="navbar container mx-auto h-28">
@@ -59,21 +71,18 @@ const SignNav = (props) => {
               tabIndex={0}
               className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
             >
-{
-    links
-}
+              {links}
             </ul>
           </div>
-          <Link to={'/'} className="btn btn-ghost text-xl h-full">
-            <img src="https://raw.githubusercontent.com/SALEHINISLAM/car-doctor/main/public/assets/logo.svg" alt="" />
-            </Link>
+          <Link to={"/"} className="btn btn-ghost text-xl h-full">
+            <img
+              src="https://raw.githubusercontent.com/SALEHINISLAM/car-doctor/main/public/assets/logo.svg"
+              alt=""
+            />
+          </Link>
         </div>
         <div className="navbar-end hidden lg:flex">
-          <ul className="menu menu-horizontal px-1">
-{
-    links
-}
-          </ul>
+          <ul className="menu menu-horizontal px-1">{links}</ul>
         </div>
       </div>
     </div>

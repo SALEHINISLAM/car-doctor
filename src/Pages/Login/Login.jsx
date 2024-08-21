@@ -1,12 +1,16 @@
 import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import SignNav from "../SharedComponents/SignNav";
-import { Link } from "react-router-dom";
+import { Link, replace, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Providers/AuthProviders";
 import Swal from "sweetalert2";
+import axios from "axios";
 
 const Login = (props) => {
     const {userSignIn}=useContext(AuthContext)
+    const location=useLocation();
+    const navigate=useNavigate();
+    console.log(location)
     const handleLogin=async(e)=>{
         e.preventDefault();
         const form=new FormData(e.currentTarget);
@@ -16,7 +20,22 @@ const Login = (props) => {
         console.log('form', email, password);
         try{
           const response=await userSignIn(email, password)
-          Swal.fire(`Hi ${response.displayName}`)
+          console.log(response);
+          Swal.fire(`Hi ${response.user.displayName}`)
+          .then(res=>{
+            if (res.isConfirmed) {
+              //window.open(`${location.state}`, self)
+              //navigate(`${location?.state? location?.state : '/'}`, {replace:true});
+              //access token
+              axios.post('http://localhost:3000/jwt', response.user , {withCredentials: true})
+              .then(data=>{
+                console.log(data.data)
+                if (data.data.success) {
+                  navigate(`${location?.state? location?.state : '/'}`, {replace:true});
+                }
+              })
+            }
+          })
         }catch(err){
           throw err;
         }
