@@ -1,8 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import { Link, NavLink } from "react-router-dom";
+import { AuthContext } from "../../Providers/AuthProviders";
+import Swal from "sweetalert2";
 
 const SignNav = (props) => {
+  const {user, userLogOut}=useContext(AuthContext)
+    const logOut=async()=>{
+      await userLogOut();
+      Swal.fire('Logout Successful...')
+    }
     const links=<>
     <li>
         <NavLink>
@@ -15,14 +22,16 @@ const SignNav = (props) => {
         </NavLink>
     </li>
     <li>
-        <NavLink>
+        <NavLink className='text-white'>
             Manage Inventory
         </NavLink>
     </li>
     <li>
-        <NavLink to={'/login'}>
-            Login
-        </NavLink>
+        {
+          user? <button className="text-base-content" onClick={()=>logOut()}>LogOut</button>:<NavLink to={'/login'} className='text-base-content'>
+          Login
+      </NavLink>
+        }
     </li>
     </>
   return (

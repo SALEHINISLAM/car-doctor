@@ -5,19 +5,20 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../../Providers/AuthProviders";
 import Swal from "sweetalert2";
 
-const Login = (props) => {
-    const {userSignIn}=useContext(AuthContext)
-    const handleLogin=async(e)=>{
+const SignUp = (props) => {
+    const {createUser}=useContext(AuthContext)
+    const handleSignUp=async(e)=>{
         e.preventDefault();
-        const form=new FormData(e.currentTarget);
-        //const name=form.name.value
+        const form=new FormData(e.currentTarget)
+        const name=form.get('name');
         const email=form.get('email');
-        const password=form.get('password');
-        console.log('form', email, password);
+        const password=form.get('password')
+        console.log(name, email, password)
         try{
-          const response=await userSignIn(email, password)
-          Swal.fire(`Hi ${response.displayName}`)
-        }catch(err){
+          const response=await createUser(email, password, name)
+          console.log(response.json())
+          Swal.fire('Registration successful...')
+        }catch (err){
           throw err;
         }
     }
@@ -34,8 +35,20 @@ const Login = (props) => {
             />
           </div>
           <div className="card text-black lg:w-1/2 w-full max-w-sm  shadow-2xl">
-            <form className="card-body" onSubmit={handleLogin}>
-              <h2 className="text-5xl font-semibold text-center">Login</h2>
+            <form className="card-body" onSubmit={handleSignUp}>
+              <h2 className="text-5xl font-semibold text-center">SignUp</h2>
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text">Name</span>
+                </label>
+                <input
+                  type="text"
+                  placeholder="name"
+                  name="name"
+                  className="input input-bordered bg-white"
+                  required
+                />
+              </div>
               <div className="form-control">
                 <label className="label">
                   <span className="label-text">Email</span>
@@ -61,11 +74,11 @@ const Login = (props) => {
                 />
               </div>
               <div className="form-control mt-6">
-                <button className="btn btn-error text-white" type="submit">Login</button>
+                <button className="btn btn-error text-white" type="submit">Sign In</button>
               </div>
             </form>
             <p className="text-center">
-                New to Car Doctors? <Link to={'/signup'} className="text-error font-bold">Sign Up</Link>
+                Already have an account ? <Link to={'/login'} className="font-bold text-error">Login</Link>
             </p>
           </div>
         </div>
@@ -74,6 +87,6 @@ const Login = (props) => {
   );
 };
 
-Login.propTypes = {};
+SignUp.propTypes = {};
 
-export default Login;
+export default SignUp;
